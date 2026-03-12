@@ -36,7 +36,12 @@ public class DebtController {
         double total = 0.0;
 
         for(Debt debtLists : allDebtsFromDB){
-            total += debtLists.getAmount();
+
+            if(debtLists.getCurrency().equals("USD")){
+                total = debtLists.getAmount() * (rateScraper.getPrice() / 100);
+            }else {
+                total = (total + debtLists.getAmount());
+            }
         }
 
         model.addAttribute("totalAmount", total);

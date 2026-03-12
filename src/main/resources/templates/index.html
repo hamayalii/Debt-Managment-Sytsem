@@ -132,10 +132,17 @@
           </tr>
         </tbody>
       </table>
-
-      <h2>
-        (هەزار دینار)کۆی گشتی قەرزەکان: <span th:text="${totalAmount}"></span>
-      </h2>
+      <div class="total-box">
+        <h2>کۆی گشتی قەرزەکان</h2>
+        <div class="prices-row">
+          <h3><span th:text="${totalAmount + ' ' + 'IQD'}"></span></h3>
+          <h3>
+            <span
+              th:text="'$' + ${#numbers.formatDecimal(totalAmount / usdRate * 100.0, 1, 2) + ' ' + 'USD'}"
+            ></span>
+          </h3>
+        </div>
+      </div>
     </div>
   </body>
 </html>

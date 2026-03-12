@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 
 @Service
 public class TelegramRateScraper {
-    private double price;
+    private double price = 154.0;
 
     @Scheduled(fixedRate = 3600000)
     public void fetchDollarRate(){

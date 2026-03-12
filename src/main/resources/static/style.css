@@ -14,7 +14,7 @@
 }
 
 body {
-  background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%);
+    background: linear-gradient(to right, #414345, #232526);
   margin: 0;
   overflow-x: hidden;
 }
@@ -29,7 +29,7 @@ body {
 .debt-form {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+    background: linear-gradient(to right, #414345, #232526);
   padding: 30px;
   border-radius: 10px;
   width: 50%;
@@ -177,7 +177,7 @@ h2{
   align-items: center;
   padding: 15px 30px;
   color: white;
-  background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%);
+    background: linear-gradient(to right, #414345, #232526);
   position: relative;
   z-index: 1001;
 }
@@ -204,6 +204,7 @@ h2{
 
 }
 .fa-bars{
+  font-family: FontAwesome !important;
   color: white;
   font-size: 24px;
   cursor: pointer;
@@ -282,4 +283,24 @@ label[for="menu-toggle"] {
   border-radius: 5px;
   cursor: pointer;
   margin: auto auto;
+}
+
+.total-box {
+    background: linear-gradient(to right, #414345, #232526);
+  border-radius: 10px;
+  width: 50%;
+  margin: 20px auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+
+.prices-row{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
