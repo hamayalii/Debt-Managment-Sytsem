@@ -1,0 +1,102 @@
+package com.example.market_sytsem;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+
+public class DebtController {
+
+    @Autowired
+    DebtRepository repository;
+
+    @Autowired
+    TelegramRateScraper rateScraper;
+
+    @GetMapping("/Debt")
+    public String showDebt(Model model , @RequestParam(required = false) String keyword){
+
+        List<Debt> allDebtsFromDB;
+
+        if(keyword != null && !keyword.isEmpty()){
+           allDebtsFromDB = repository.findByCustomerNameContaining(keyword);
+        }else{
+            allDebtsFromDB = repository.findAll();
+        }
+
+        model.addAttribute("allDebts", allDebtsFromDB);
+
+        double total = 0.0;
+
+        for(Debt debtLists : allDebtsFromDB){
+            total += debtLists.getAmount();
+        }
+
+        model.addAttribute("totalAmount", total);
+
+        model.addAttribute("usdRate",rateScraper.getPrice());
+
+        return "index";
+    }
+
+    @PostMapping("/saveDebt")
+    public String saveNewDebt(@RequestParam String customerName, @RequestParam double amount, Model model , @RequestParam String phoneNumber , @RequestParam String currency){
+
+        Debt currentDebt = new Debt(customerName, amount , phoneNumber , currency);
+        repository.save(currentDebt);
+
+        return "redirect:/Debt";
+    }
+
+    @GetMapping("/deleteDebt")
+    public String deleteDebt(@RequestParam Long id){
+
+        repository.deleteById(id);
+
+        return "redirect:/Debt";
+    }
+
+    @Autowired
+    PaymentRepository paymentRepository;
+    @PostMapping("/addPayment")
+    public String addPayment(@RequestParam Long debtId, @RequestParam double paymentAmount , @RequestParam String currency){
+
+        Debt currentDebt = repository.findById(debtId).orElse(null);
+
+        if(currentDebt != null){
+            Payment newPayment = new Payment();
+
+            newPayment.setAmount(paymentAmount);
+            newPayment.setPaymentDate(java.time.LocalDate.now().toString());
+            newPayment.setDebt(currentDebt);
+            newPayment.setCurrency(currency);
+            double autoExchangeRate = rateScraper.getPrice();
+
+            double convertedAmount = 0;
+
+            if(currentDebt.getCurrency().equals(currency)){
+
+                convertedAmount = paymentAmount;
+            }else if (currentDebt.getCurrency().equals("USD") && currency.equals("IQD")){
+
+                convertedAmount = (paymentAmount / autoExchangeRate)* 100;
+            }else if (currentDebt.getCurrency().equals("IQD") && currency.equals("USD")){
+                convertedAmount = (paymentAmount * autoExchangeRate) / 100;
+            }
+
+            currentDebt.setAmount(currentDebt.getAmount() - convertedAmount);
+            repository.save(currentDebt);
+
+            paymentRepository.save(newPayment);
+        }
+
+        return "redirect:/Debt";
+    }
+}

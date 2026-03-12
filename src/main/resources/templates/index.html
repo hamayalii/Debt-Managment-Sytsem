@@ -1,0 +1,141 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Debt Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="top-navbar">
+      <div class="logo"><h2>بەڕێوەبردنی قەرز</h2></div>
+      <div>
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle"><i class="fas fa-bars"></i></label>
+        <div class="sidebar-menu">
+          <a href="/">سەرەکی</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <form class="debt-form" action="/saveDebt" method="post">
+        <label for="customerName">ناوی کڕیار</label>
+        <input type="text" name="customerName" id="customerName" required />
+
+        <label for="debtAmount">بڕی قەرز</label>
+        <input
+          type="number"
+          name="amount"
+          id="debtAmount"
+          step="0.01"
+          required
+        />
+        <select name="currency" id="currency">
+          <option value="IQD">دینار</option>
+          <option value="USD">دۆلار</option>
+        </select>
+
+        <label for="phoneNumber">ژمارەی تەلەفۆن</label>
+        <input
+          type="tel"
+          name="phoneNumber"
+          id="phoneNumber"
+          placeholder="تکایە ژمارەکە بەم شێوەیە بنووسە: 9647701234567"
+        />
+
+        <button type="submit" class="btn-submit">هەڵگرتن</button>
+      </form>
+
+      <form class="search-form" action="/Debt" method="get">
+        <input
+          type="text"
+          name="keyword"
+          placeholder="گەڕان بۆ ناوی کڕیار..."
+        />
+        <button type="submit" class="btn-search">بگەڕێ</button>
+      </form>
+
+      <table class="debt-table">
+        <thead>
+          <tr>
+            <th>ناوی كڕیار</th>
+            <th>بڕی قەرز(هەزار دینار)</th>
+            <th>بڕی قەرز(دۆلار)</th>
+            <th>ژمارەی تەلەفۆن</th>
+            <th>نامە ناردن <i class="fab fa-whatsapp"></i></th>
+            <th>(واصڵکردن) دانەوەی پارە</th>
+            <th>سرینەوەی قەرز</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="debt : ${allDebts}">
+            <td th:text="${debt.customerName}"></td>
+            <td>
+              <span
+                th:if="${debt.currency == 'IQD'}"
+                th:text="${debt.amount} + ' ' + 'IQD'"
+              ></span>
+              <span
+                th:if="${debt.currency == 'USD'}"
+                th:text="${#numbers.formatDecimal(debt.amount * (usdRate / 100.0), 1, 2)} + ' ' + 'IQD'"
+              ></span>
+            </td>
+
+            <td>
+              <span
+                th:if="${debt.currency == 'USD'}"
+                th:text="'$' + ${debt.amount} + ' ' + 'USD'"
+              ></span>
+              <span
+                th:if="${debt.currency == 'IQD'}"
+                th:text="'$' + ${#numbers.formatDecimal(debt.amount / (usdRate / 100.0), 1, 2)} + ' ' + 'USD'"
+              ></span>
+            </td>
+            <td th:text="${debt.phoneNumber}"></td>
+            <td>
+              <a
+                class="btn-whatsapp"
+                target="_blank"
+                th:href="@{'https://wa.me/' + ${debt.phoneNumber} + '?text=سڵاو ' + ${debt.customerName} + ' ! تۆ بڕی قەرزت ' + ${debt.amount} + ' ' + ${debt.currency} + 'ـە. هیوادارین بە زووترین کات پێمان بدەیتەوە! سوپاس'}"
+                >ناردنی نامە</a
+              >
+            </td>
+            <td>
+              <form action="/addPayment" method="post" class="addPayment">
+                <input type="hidden" name="debtId" th:value="${debt.id}" />
+                <input
+                  type="number"
+                  name="paymentAmount"
+                  placeholder="بڕی دانەوە"
+                  step="0.01"
+                  required
+                />
+                <select name="currency" id="currency-payment">
+                  <option value="IQD">دینار</option>
+                  <option value="USD">دۆلار</option>
+                </select>
+                <button type="submit" class="btn-submit">دانەوە</button>
+              </form>
+            </td>
+            <td>
+              <a class="btn-delete" th:href="@{/deleteDebt(id=${debt.id})}"
+                >سڕینەوە</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>
+        (هەزار دینار)کۆی گشتی قەرزەکان: <span th:text="${totalAmount}"></span>
+      </h2>
+    </div>
+  </body>
+</html>

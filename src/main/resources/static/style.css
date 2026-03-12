@@ -1,0 +1,285 @@
+*{
+  font-family: 'Rabar', sans-serif !important;
+  box-sizing: border-box;
+  font-weight: 500;
+}
+
+:root {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family:'Rabar';
+  src: url('/fonts/Rabar_032.ttf') format('truetype');
+}
+
+body {
+  background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+.container {
+  width: 100%;
+  margin: auto;
+  padding-top: 50px;
+}
+
+.debt-form {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  padding: 30px;
+  border-radius: 10px;
+  width: 50%;
+  margin: 20px auto 50px auto;
+  direction: rtl;
+}
+
+.debt-form input {
+      padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  }
+
+  .debt-form label{
+      color: white;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 1.1em;
+  text-align: right;
+  }
+
+.btn-submit {
+  margin-top: 25px;
+  padding: 12px;
+  background-color: rgb(88, 176, 0);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.btn-submit:hover {
+     background-color: rgb(75, 140, 10);
+  }
+
+.debt-table{
+  table-layout:auto;
+   width: 50%;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  border: none;
+  border-color: #444;
+  clear: both;
+
+}
+
+th , tr , td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  color: white;
+  text-align: center;
+  justify-content: center;
+}
+
+th a,tr a, td a{
+  
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+    th a:hover,tr a:hover, td a:hover{
+      color: darkred;
+    }
+
+h2{
+  text-align: center;
+  color: white;
+  padding: 20px 0;
+  font-size: 1.5em;
+}
+
+.search-form {
+    text-align: center;
+    margin: 30px auto 30px auto;
+}
+
+.search-form input {
+    padding: 8px;
+    width: 300px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.btn-search {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.fa-whatsapp{
+  font-family: FontAwesome !important;
+  color: #25D366;
+}
+
+.btn-whatsapp {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1DA851;
+  color: white;
+}
+
+.btn-delete {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-delete:hover {
+  background-color: #cc0000;
+  color: white;
+}
+
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  color: white;
+  background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%);
+  position: relative;
+  z-index: 1001;
+}
+
+#newRate {
+  width: 80px;;
+}
+
+#rateModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  display: none;
+  z-index: 2000;
+}
+
+#rateModal:target{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.fa-bars{
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#get-back {
+  padding: 8px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; 
+    text-align: center;
+    margin-top: 15px;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.sidebar-menu {
+  position: fixed;
+  width: 100%;
+  top: -400px;
+  left: 0;
+  transition: top 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+  padding-bottom: 20px;
+  z-index: 1000;
+  border: 1px solid white;
+}
+
+.sidebar-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 15px 20px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+.sidebar-menu a:hover {
+  background-color: #007bff;
+}
+
+#menu-toggle:checked ~ .sidebar-menu {
+  top: 0;
+}
+
+label[for="menu-toggle"] {
+  position: relative;
+  z-index: 2000;
+}
+
+.addPayment {
+  display: flex;
+  gap: 5px;
+}
+
+.addPayment input[type="number"] {
+  width: 100px;
+  display: block;
+}
+
+.addPayment button {
+  display: block;
+  padding: 5px 5px;
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: auto auto;
+}
