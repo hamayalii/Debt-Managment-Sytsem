@@ -3,10 +3,7 @@ package com.example.market_sytsem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,27 +23,39 @@ public class DebtController {
         List<Debt> allDebtsFromDB;
 
         if(keyword != null && !keyword.isEmpty()){
-           allDebtsFromDB = repository.findByCustomerNameContaining(keyword);
+            allDebtsFromDB = repository.findByCustomerNameContaining(keyword);
         }else{
             allDebtsFromDB = repository.findByIsArchivedFalse();
         }
-
         model.addAttribute("allDebts", allDebtsFromDB);
 
+        SystemSetting settings = mySettings.findById(1L).orElse(new SystemSetting());
+        Double scrapedRate = rateScraper.getPrice();
+        if (scrapedRate == null) {
+            scrapedRate = 153000.0;
+        }
+
+        Double activeUsdRate = scrapedRate;
+        if (settings.isUseCustomRate() != null && settings.isUseCustomRate() && settings.getCustomUsdRate() != null) {
+            activeUsdRate = settings.getCustomUsdRate();
+        }
+
+        if(activeUsdRate > 1000){
+            activeUsdRate = activeUsdRate / 1000.0;
+        }
+
         double total = 0.0;
-
         for(Debt debtLists : allDebtsFromDB){
-
             if(debtLists.getCurrency().equals("USD")){
-                total = debtLists.getAmount() * (rateScraper.getPrice() / 100);
+                total += debtLists.getAmount() * (activeUsdRate / 100.0);
             }else {
-                total = (total + debtLists.getAmount());
+                total += debtLists.getAmount();
             }
         }
 
         model.addAttribute("totalAmount", total);
-
-        model.addAttribute("usdRate",rateScraper.getPrice());
+        model.addAttribute("usdRate", activeUsdRate);
+        model.addAttribute("globalSettings", settings);
 
         return "index";
     }
@@ -148,14 +157,23 @@ public class DebtController {
         }
     }
 
+    @ModelAttribute
+    public void addGlobalSettings(Model model) {
+        SystemSetting settings = mySettings.findById(1L).orElse(new SystemSetting());
+        model.addAttribute("globalSettings", settings);
+
+        model.addAttribute("usdRate", 1530.0);
+    }
+
     @Autowired
     private SystemSettingRepository mySettings;
 
     @GetMapping("/settings")
     public String showSettings(Model model){
-        mySettings.findById(1L).orElse(new SystemSetting());
 
-        model.addAttribute("mySettings", mySettings);
+        SystemSetting settings = mySettings.findById(1L).orElse(new SystemSetting());
+
+        model.addAttribute("mySettings", settings);
 
         return "settings";
     }

@@ -14,7 +14,7 @@
   </head>
   <body>
     <nav class="top-navbar">
-      <div class="logo"><h2>بەڕێوەبردنی قەرز</h2></div>
+      <h2 class="logo" th:text="${globalSettings.storeName}">دەفتەری قەرز</h2>
       <div>
         <input type="checkbox" id="menu-toggle" />
         <label for="menu-toggle"><i class="fas fa-bars"></i></label>
@@ -22,6 +22,7 @@
           <a href="/Debt">سەرەکی</a>
           <a href="/history">مێژووی پارەدان</a>
           <a href="/archives">ئەرشیفی قەرزەکان</a>
+          <a href="/settings">ڕێکخستنەکان</a>
         </div>
       </div>
     </nav>
