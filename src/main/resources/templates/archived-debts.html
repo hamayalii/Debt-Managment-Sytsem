@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Debt Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="top-navbar">
+      <div class="logo"><h2>بەڕێوەبردنی قەرز</h2></div>
+      <div>
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle"><i class="fas fa-bars"></i></label>
+        <div class="sidebar-menu">
+          <a href="/Debt">سەرەکی</a>
+          <a href="/history">مێژووی پارەدان</a>
+          <a href="/archives">ئەرشیفی قەرزەکان</a>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <table class="debt-table">
+        <thead>
+          <tr>
+            <th>ناوی كڕیار</th>
+            <th>بڕی قەرز(هەزار دینار)</th>
+            <th>بڕی قەرز(دۆلار)</th>
+            <th>ژمارەی تەلەفۆن</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="debt : ${archives}">
+            <td th:text="${debt.customerName}"></td>
+            <td>
+              <span
+                th:if="${debt.currency == 'IQD'}"
+                th:text="${debt.amount} + ' ' + 'IQD'"
+              ></span>
+              <span
+                th:if="${debt.currency == 'USD'}"
+                th:text="${#numbers.formatDecimal(debt.amount * (usdRate / 100.0), 1, 2)} + ' ' + 'IQD'"
+              ></span>
+            </td>
+
+            <td>
+              <span
+                th:if="${debt.currency == 'USD'}"
+                th:text="'$' + ${debt.amount} + ' ' + 'USD'"
+              ></span>
+              <span
+                th:if="${debt.currency == 'IQD'}"
+                th:text="'$' + ${#numbers.formatDecimal(debt.amount / (usdRate / 100.0), 1, 2)} + ' ' + 'USD'"
+              ></span>
+            </td>
+            <td th:text="${debt.phoneNumber}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

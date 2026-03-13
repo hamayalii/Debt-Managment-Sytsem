@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,10 +16,10 @@ import java.util.List;
 public class DebtController {
 
     @Autowired
-    DebtRepository repository;
+    private DebtRepository repository;
 
     @Autowired
-    TelegramRateScraper rateScraper;
+    private TelegramRateScraper rateScraper;
 
     @GetMapping("/Debt")
     public String showDebt(Model model , @RequestParam(required = false) String keyword){
@@ -28,7 +29,7 @@ public class DebtController {
         if(keyword != null && !keyword.isEmpty()){
            allDebtsFromDB = repository.findByCustomerNameContaining(keyword);
         }else{
-            allDebtsFromDB = repository.findAll();
+            allDebtsFromDB = repository.findByIsArchivedFalse();
         }
 
         model.addAttribute("allDebts", allDebtsFromDB);
@@ -60,10 +61,16 @@ public class DebtController {
         return "redirect:/Debt";
     }
 
-    @GetMapping("/deleteDebt")
-    public String deleteDebt(@RequestParam Long id){
+    @GetMapping("/delete/{id}")
+    public String archiveDebt(@PathVariable Long id){
 
-        repository.deleteById(id);
+        Debt debtToArchive = repository.findById(id).orElse(null);
+
+        if(debtToArchive != null){
+            debtToArchive.setArchived(true);
+
+            repository.save(debtToArchive);
+        }
 
         return "redirect:/Debt";
     }
@@ -103,5 +110,42 @@ public class DebtController {
         }
 
         return "redirect:/Debt";
+    }
+
+    @GetMapping("/history")
+    public String showPaymentHistory(Model model){
+        List<Payment> allPayments = paymentRepository.findAll();
+
+        model.addAttribute("allPayments", allPayments);
+
+        return "payment-history";
+
+    }
+
+    @GetMapping("/")
+    public String redirectToMain(){
+        return "redirect:/Debt";
+    }
+
+    @GetMapping("/archives")
+    public String archives(Model model){
+        List<Debt> archivedList = repository.findByIsArchivedTrue();
+
+        try{
+
+            model.addAttribute("archives", archivedList);
+
+            Double currentRate = rateScraper.getPrice();
+            if(currentRate == null){
+                currentRate = 153000.0;
+            }
+
+            model.addAttribute("usdRate", rateScraper.getPrice());
+
+            return "archived-debts";
+        } catch (Exception e) {
+            System.out.println("Error in Archives: " + e.getMessage());
+            return "archived-debts";
+        }
     }
 }

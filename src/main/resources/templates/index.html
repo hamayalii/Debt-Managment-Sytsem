@@ -19,7 +19,9 @@
         <input type="checkbox" id="menu-toggle" />
         <label for="menu-toggle"><i class="fas fa-bars"></i></label>
         <div class="sidebar-menu">
-          <a href="/">سەرەکی</a>
+          <a href="/Debt">سەرەکی</a>
+          <a href="/history">مێژووی پارەدان</a>
+          <a href="/archives">ئەرشیفی قەرزەکان</a>
         </div>
       </div>
     </nav>
@@ -115,6 +117,7 @@
                   name="paymentAmount"
                   placeholder="بڕی دانەوە"
                   step="0.01"
+                  min="0.1"
                   required
                 />
                 <select name="currency" id="currency-payment">
@@ -125,7 +128,7 @@
               </form>
             </td>
             <td>
-              <a class="btn-delete" th:href="@{/deleteDebt(id=${debt.id})}"
+              <a class="btn-delete" th:href="@{/delete/{id}(id=${debt.id})}"
                 >سڕینەوە</a
               >
             </td>
@@ -135,10 +138,12 @@
       <div class="total-box">
         <h2>کۆی گشتی قەرزەکان</h2>
         <div class="prices-row">
-          <h3><span th:text="${totalAmount + ' ' + 'IQD'}"></span></h3>
+          <h3>
+            <span th:text="${'هەزار دینار ' + totalAmount}"></span>
+          </h3>
           <h3>
             <span
-              th:text="'$' + ${#numbers.formatDecimal(totalAmount / usdRate * 100.0, 1, 2) + ' ' + 'USD'}"
+              th:text="'$' + ${'دۆلار ' + #numbers.formatDecimal(totalAmount / usdRate * 100.0, 1, 2)}"
             ></span>
           </h3>
         </div>

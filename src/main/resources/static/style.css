@@ -286,7 +286,6 @@ label[for="menu-toggle"] {
 }
 
 .total-box {
-    background: linear-gradient(to right, #414345, #232526);
   border-radius: 10px;
   width: 50%;
   margin: 20px auto;
@@ -297,10 +296,29 @@ label[for="menu-toggle"] {
   justify-content: space-around;
   align-items: center;
   color: white;
+  border: #ccc solid 1px;
+}
+
+.total-box h2 {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
 }
 
 .prices-row{
   display: flex;
   justify-content: space-around;
   width: 100%;
+}
+
+.ph-table {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  border: none;
+  border-color: #444;
+  font-size: 1.3rem;
+  background: linear-gradient(to right, #414345, #232526);
 }

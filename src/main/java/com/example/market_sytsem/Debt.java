@@ -15,6 +15,9 @@ public class Debt {
     private String phoneNumber;
     private String currency;
 
+    @Column(name = "is_archived", columnDefinition = "boolean default false")
+    private boolean isArchived = false;
+
     @OneToMany(mappedBy = "debt", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
@@ -84,5 +87,13 @@ public class Debt {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
     }
 }
