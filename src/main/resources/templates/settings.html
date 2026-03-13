@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Debt Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="top-navbar">
+      <div class="logo"><h2>بەڕێوەبردنی قەرز</h2></div>
+      <div>
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle"><i class="fas fa-bars"></i></label>
+        <div class="sidebar-menu">
+          <a href="/Debt">سەرەکی</a>
+          <a href="/history">مێژووی پارەدان</a>
+          <a href="/archives">ئەرشیفی قەرزەکان</a>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <form th:action="@{/saveSettings}" class="setting-form" method="post">
+        <label for="storeName">ناوی فرۆشگا</label>
+        <input
+          type="text"
+          name="storeName"
+          th:value="${mySettings.storeName}"
+        />
+        <label for="customUsdRate">گۆڕینی نرخی دۆلار بە دەستی</label>
+        <input
+          type="number"
+          step="0.01"
+          name="customUsdRate"
+          th:value="${mySettings.customUsdRate}"
+        />
+
+        <label for="useCustomRate">بەکارهێنانی نرخی دۆلاری دەستی</label>
+        <input
+          type="checkbox"
+          name="useCustomRate"
+          th:checked="${mySettings.useCustomRate}"
+        />
+
+        <button type="submit" class="btn-submit">خەزنکردنی ڕێکخستنەکان</button>
+      </form>
+    </main>
+  </body>
+</html>

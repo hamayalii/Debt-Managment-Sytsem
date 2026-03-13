@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -147,5 +146,29 @@ public class DebtController {
             System.out.println("Error in Archives: " + e.getMessage());
             return "archived-debts";
         }
+    }
+
+    @Autowired
+    private SystemSettingRepository mySettings;
+
+    @GetMapping("/settings")
+    public String showSettings(Model model){
+        mySettings.findById(1L).orElse(new SystemSetting());
+
+        model.addAttribute("mySettings", mySettings);
+
+        return "settings";
+    }
+
+    @PostMapping("/saveSettings")
+    public String updateSettings(@RequestParam String storeName, @RequestParam Double customUsdRate, @RequestParam(required = false) Boolean useCustomRate){
+        SystemSetting currentSetting = mySettings.findById(1L).orElse(new SystemSetting());
+        currentSetting.setStoreName(storeName);
+        currentSetting.setCustomUsdRate(customUsdRate);
+        currentSetting.setUseCustomRate(useCustomRate);
+
+        mySettings.save(currentSetting);
+
+        return "redirect:/settings";
     }
 }
