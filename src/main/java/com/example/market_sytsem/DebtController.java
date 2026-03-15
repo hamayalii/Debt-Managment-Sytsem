@@ -1,10 +1,16 @@
 package com.example.market_sytsem;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -85,6 +91,8 @@ public class DebtController {
 
     @Autowired
     PaymentRepository paymentRepository;
+
+
     @PostMapping("/addPayment")
     public String addPayment(@RequestParam Long debtId, @RequestParam double paymentAmount , @RequestParam String currency){
 
@@ -189,4 +197,57 @@ public class DebtController {
 
         return "redirect:/settings";
     }
+
+    @PostMapping("/clearArchives")
+    public String deleteArchives(){
+
+        List<Debt> deleteDebt = repository.findByIsArchivedTrue();
+
+        repository.deleteAll();
+
+        return "redirect:/settings";
+    }
+
+    @PostMapping("/clearHistory")
+    public String clearHistory(){
+
+        paymentRepository.deleteAll();
+
+        return "redirect:/settings";
+    }
+
+    @GetMapping("/exportDebts")
+    public void exportToExel(HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=Qarzakan.xlsx");
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("قەرزەکان");
+        Row headerRow = sheet.createRow(0);
+
+        headerRow.createCell(0).setCellValue("ناوی كڕیار");
+        headerRow.createCell(0).setCellValue("بڕی قەرز");
+        headerRow.createCell(0).setCellValue("جۆری دراو");
+        headerRow.createCell(0).setCellValue("ژمارەی تەلەفون");
+
+        List<Debt> activeDebts = repository.findByIsArchivedFalse();
+
+        int rowNum = 1;
+
+        for(Debt debt : activeDebts){
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(debt.getCustomerName());
+            row.createCell(1).setCellValue(debt.getAmount());
+            row.createCell(2).setCellValue(debt.getCurrency());
+            row.createCell(3).setCellValue(debt.getPhoneNumber());
+        }
+
+        workbook.write(response.getOutputStream());
+
+        workbook.close();
+
+    }
+
 }

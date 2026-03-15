@@ -1,7 +1,15 @@
 * {
-  font-family: "Rabar", sans-serif !important;
   box-sizing: border-box;
   font-weight: 500;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+a {
+  font-family: "Rabar", sans-serif;
 }
 
 :root {
@@ -162,15 +170,17 @@ h2 {
 .btn-delete {
   display: inline-block;
   padding: 8px 12px;
-  background-color: #ff4d4d;
+  background-color: #c20a0a;
   color: white;
   border-radius: 5px;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
   font-weight: bold;
 }
 
 .btn-delete:hover {
-  background-color: #cc0000;
+  background-color: #ba1e1e;
   color: white;
 }
 
@@ -356,4 +366,23 @@ label[for="menu-toggle"] {
   border-radius: 5px;
   border: none;
   font-size: 1.4rem;
+}
+
+.delete-clear-debts {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 1.2em;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.exel-sheet {
+  text-align: center;
+  margin: 20px;
 }

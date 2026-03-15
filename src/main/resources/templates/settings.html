@@ -51,6 +51,54 @@
 
         <button type="submit" class="btn-submit">خەزنکردنی ڕێکخستنەکان</button>
       </form>
+      <div class="delete-clear-debts">
+        <form
+          action="/clearArchives"
+          onsubmit="
+            return confirm(
+              'ئایا دڵنیای لە سڕینەوەی ئەرشیفی قەرزەکان؟، داتاکان ناگەڕێنەوە!',
+            );
+          "
+          method="post"
+        >
+          <button
+            type="submit"
+            class="btn-delete"
+            style="
+              width: 100%;
+              padding: 10px;
+              margin-top: 10px;
+              margin-bottom: 20px;
+              font-size: 1.6rem;
+            "
+          >
+            سڕینەوەی ئەرشیفی قەرزەکان
+          </button>
+        </form>
+        <form
+          action="/clearHistory"
+          method="post"
+          onsubmit="
+            return confirm(
+              'ئایا دڵنیای لە سڕینەوەی مێژووی پارەدان؟، داتاکان ناگەڕێنەوە!',
+            );
+          "
+        >
+          <button
+            type="submit"
+            class="btn-delete"
+            style="
+              width: 100%;
+              padding: 10px;
+              margin-top: 10px;
+              margin-bottom: 20px;
+              font-size: 1.6rem;
+            "
+          >
+            سڕینەوەی مێژووی پارەدان
+          </button>
+        </form>
+      </div>
     </main>
   </body>
 </html>
