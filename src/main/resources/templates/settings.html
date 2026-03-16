@@ -69,7 +69,7 @@
               padding: 10px;
               margin-top: 10px;
               margin-bottom: 20px;
-              font-size: 1.6rem;
+              font-size: 1.3rem;
             "
           >
             سڕینەوەی ئەرشیفی قەرزەکان
@@ -92,13 +92,74 @@
               padding: 10px;
               margin-top: 10px;
               margin-bottom: 20px;
-              font-size: 1.6rem;
+              font-size: 1.3rem;
             "
           >
             سڕینەوەی مێژووی پارەدان
           </button>
         </form>
       </div>
+      <div class="backup">
+        <h3>پاراستنی داتاکان</h3>
+        <a href="/backup" class="btn-submit"
+          ><i class="fas fa-database"></i>دابەزاندنی کۆپیەك لە داتاکان -
+          Backup</a
+        >
+        <p>
+          ئەمە هەموو داتاکانت دەپارێزێت لە ئەگەری بوونی هەر کێشەیەک وەک: فۆرمات
+          کردنی کۆمپیتەرەکەت، هەڵەکانی سیستەم، گۆڕینی کۆمپیتەر، هتد..
+        </p>
+        <form
+          action="/restore"
+          method="post"
+          enctype="multipart/form-data"
+          style="text-align: center"
+        >
+          <label for="restoreFile">گەڕاندنەوەی داتاکان - Restore</label>
+          <input
+            type="file"
+            name="file"
+            id="backupFile"
+            accept=".sql"
+            required
+            style="display: none"
+          />
+
+          <label
+            for="backupFile"
+            style="
+              background-color: #3b82f6;
+              color: white;
+              padding: 10px 15px;
+              border-radius: 5px;
+              cursor: pointer;
+              display: inline-block;
+              margin-bottom: 15px;
+            "
+          >
+            <i class="fas fa-folder-open"></i> فایلی باکئەپ هەڵبژێرە...
+          </label>
+
+          <span
+            id="fileNameDisplay"
+            style="margin-right: 10px; color: #6b7280; font-size: 14px"
+            >هیچ فایلێک هەڵنەبژێراوە</span
+          >
+          <button type="submit" class="btn-submit">
+            <i class="fas fa-upload"></i> گەڕاندنەوەی داتاکان
+          </button>
+        </form>
+      </div>
     </main>
+
+    <script>
+      document
+        .getElementById("backupFile")
+        .addEventListener("change", function () {
+          document.getElementById("fileNameDisplay").textContent = this.files[0]
+            ? this.files[0].name
+            : "هیچ فایلێک هەڵنەبژێراوە";
+        });
+    </script>
   </body>
 </html>

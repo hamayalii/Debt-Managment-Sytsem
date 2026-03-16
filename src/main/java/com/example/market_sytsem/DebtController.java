@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -250,4 +252,37 @@ public class DebtController {
 
     }
 
+    @GetMapping("/backup")
+    public void backup(HttpServletResponse response) throws IOException, InterruptedException {
+        response.setContentType("application/sql");
+        response.setHeader("Content-Disposition", "attachment; filename=backup.sql");
+
+        ProcessBuilder processBuilder = new ProcessBuilder("C:\\Program Files\\PostgreSQL\\18\\bin\\pg_dump.exe", "-U", "postgres", "-h", "localhost", "-d", "market_db");
+        processBuilder.environment().put("PGPASSWORD", "1234");
+
+        Process process = processBuilder.start();
+
+        process.getInputStream().transferTo(response.getOutputStream());
+
+        process.waitFor();
+    }
+
+    @PostMapping("/restore")
+    public String restore(@RequestParam("file")MultipartFile file) throws IOException, InterruptedException {
+
+        File tempFile = File.createTempFile("backup_restore", ".sql");
+
+        file.transferTo(tempFile);
+
+        ProcessBuilder processBuilder = new ProcessBuilder("C:\\Program Files\\PostgreSQL\\18\\bin\\psql.exe", "-U", "postgres", "-h", "localhost", "-d", "market_db", "-f", tempFile.getAbsolutePath());
+        processBuilder.environment().put("PGPASSWORD", "1234");
+
+        Process process = processBuilder.start();
+
+        process.waitFor();
+
+        tempFile.delete();
+
+        return "redirect:/settings";
+    }
 }

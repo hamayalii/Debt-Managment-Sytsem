@@ -386,3 +386,96 @@ label[for="menu-toggle"] {
   text-align: center;
   margin: 20px;
 }
+
+.backup {
+  margin-top: 30px;
+}
+.backup h3 {
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  font-size: 1.2em;
+}
+
+.backup a {
+  display: block;
+  padding: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+  cursor: pointer;
+}
+
+.backup a:hover {
+  background-color: #2563eb;
+}
+
+.backup p {
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.backup form button {
+  display: block;
+  padding: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.backup form button:hover {
+  background-color: #2563eb;
+}
+
+.backup form input[type="file"] {
+  display: block;
+  margin: 20px auto;
+  font-size: large;
+}
+
+.backup form label {
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: block;
+  padding-top: 10px;
+  font-size: 1.2em;
+}
+
+i {
+  margin-right: 5px;
+}
+
+.file-input {
+  color: #6b7280;
+  font-size: 1.2em;
+}
+
+.file-input::file-selector-button{
+  border: none;
+  padding: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
