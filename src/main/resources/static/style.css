@@ -22,7 +22,7 @@ a {
 }
 
 body {
-  background: linear-gradient(to right, #414345, #232526);
+  background: #F2f3ef;
   margin: 0;
   overflow-x: hidden;
 }
@@ -36,7 +36,7 @@ body {
 .debt-form {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to right, #414345, #232526);
+  background: #2b3038;
   padding: 30px;
   border-radius: 10px;
   width: 50%;
@@ -190,7 +190,7 @@ h2 {
   align-items: center;
   padding: 15px 30px;
   color: white;
-  background: linear-gradient(to right, #414345, #232526);
+  background: #2b3038;
   position: relative;
   z-index: 1001;
 }
@@ -341,7 +341,7 @@ label[for="menu-toggle"] {
   flex-direction: column;
   color: white;
   font-size: 1.4em;
-  background: linear-gradient(to right, #414345, #232526);
+  background: #2b3038;
   padding: 30px;
   border-radius: 10px;
   width: 50%;

@@ -30,24 +30,26 @@
       <table class="debt-table">
         <thead>
           <tr>
-            <th>ناوی كڕیار</th>
-            <th>بڕی قەرز(هەزار دینار)</th>
-            <th>بڕی قەرز(دۆلار)</th>
-            <th>ژمارەی تەلەفۆن</th>
+            <th style="color: black">ناوی كڕیار</th>
+            <th style="color: black">بڕی قەرز(هەزار دینار)</th>
+            <th style="color: black">بڕی قەرز(دۆلار)</th>
+            <th style="color: black">ژمارەی تەلەفۆن</th>
           </tr>
         </thead>
 
         <tbody>
           <tr th:each="debt : ${archives}">
-            <td th:text="${debt.customerName}"></td>
+            <td th:text="${debt.customerName}" style="color: black"></td>
             <td>
               <span
                 th:if="${debt.currency == 'IQD'}"
                 th:text="${debt.amount} + ' ' + 'IQD'"
+                style="color: black"
               ></span>
               <span
                 th:if="${debt.currency == 'USD'}"
                 th:text="${#numbers.formatDecimal(debt.amount * (usdRate / 100.0), 1, 2)} + ' ' + 'IQD'"
+                style="color: black"
               ></span>
             </td>
 
@@ -55,13 +57,15 @@
               <span
                 th:if="${debt.currency == 'USD'}"
                 th:text="'$' + ${debt.amount} + ' ' + 'USD'"
+                style="color: black"
               ></span>
               <span
                 th:if="${debt.currency == 'IQD'}"
                 th:text="'$' + ${#numbers.formatDecimal(debt.amount / (usdRate / 100.0), 1, 2)} + ' ' + 'USD'"
+                style="color: black"
               ></span>
             </td>
-            <td th:text="${debt.phoneNumber}"></td>
+            <td th:text="${debt.phoneNumber}" style="color: black"></td>
           </tr>
         </tbody>
       </table>
